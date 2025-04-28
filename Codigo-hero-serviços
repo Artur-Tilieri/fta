@@ -1,0 +1,116 @@
+<!-- HERO DESKTOP -->
+<div class="only-desktop">
+  <img src="https://raw.githubusercontent.com/Artur-Tilieri/fta/main/SER-DESK.png" alt="Hero Desktop" style="width: 100%; height: auto;" />
+</div>
+
+<!-- HERO MOBILE (Carrossel Mobile) -->
+<div class="only-mobile">
+  <div class="ser-mobile-carousel" onclick="handleSerClick(event)">
+    <img id="ser-mobile-img" src="https://raw.githubusercontent.com/Artur-Tilieri/fta/main/SER-01.png" alt="Slide Mobile" />
+    <div class="ser-mobile-dots">
+      <span class="dot-mobile" onclick="goToSerSlide(0)"></span>
+      <span class="dot-mobile" onclick="goToSerSlide(1)"></span>
+      <span class="dot-mobile" onclick="goToSerSlide(2)"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Controle de exibição desktop e mobile */
+  .only-desktop {
+    display: block;
+  }
+
+  .only-mobile {
+    display: none;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .only-desktop {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      position: absolute !important;
+    }
+
+    .only-mobile {
+      display: block !important;
+      visibility: visible !important;
+      height: auto !important;
+      position: relative !important;
+    }
+  }
+
+  /* Estilo do carrossel mobile */
+  .ser-mobile-carousel img {
+    width: 100%;
+    height: auto;
+    transition: opacity 0.3s ease-in-out;
+    display: block;
+    border-radius: 0;
+  }
+
+  /* Estilo específico das bolinhas dentro do only-mobile */
+  .only-mobile .ser-mobile-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+    padding-bottom: 24px;
+  }
+
+  .only-mobile .dot-mobile {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5); /* bolinha branca semi-transparente */
+    cursor: pointer;
+    border: none;
+    appearance: none;
+  }
+
+  .only-mobile .dot-mobile.active {
+    background: #ffffff; /* bolinha branca sólida ativa */
+    transform: scale(1.2);
+  }
+</style>
+
+<script>
+  const serMobileImages = [
+    "https://raw.githubusercontent.com/Artur-Tilieri/fta/main/SER-01.png",
+    "https://raw.githubusercontent.com/Artur-Tilieri/fta/main/SER-02.png",
+    "https://raw.githubusercontent.com/Artur-Tilieri/fta/main/SER-03.png"
+  ];
+
+  let currentSerMobileIndex = 0;
+
+  function showSerSlide(index) {
+    const img = document.getElementById("ser-mobile-img");
+    const dots = document.querySelectorAll(".dot-mobile");
+
+    img.style.opacity = 0;
+    setTimeout(() => {
+      img.src = serMobileImages[index];
+      img.style.opacity = 1;
+      currentSerMobileIndex = index;
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+    }, 150);
+  }
+
+  function goToSerSlide(index) {
+    showSerSlide(index);
+  }
+
+  function handleSerClick(event) {
+    if (event.target.classList.contains("dot-mobile")) return;
+    const next = (currentSerMobileIndex + 1) % serMobileImages.length;
+    showSerSlide(next);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    showSerSlide(currentSerMobileIndex);
+  });
+</script>
